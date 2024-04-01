@@ -1,6 +1,6 @@
-project('rpicam-apps', 'c', 'cpp',
+project('pinotonlib', 'c', 'cpp',
         meson_version : '>= 0.64.0',
-        version : '1.4.3',
+        version : '1.0.0',
         default_options : [
             'werror=true',
             'warning_level=3',
@@ -39,27 +39,23 @@ summary({
         },
         section : 'libcamera')
 
-rpicam_app_src = []
-rpicam_app_dep = [libcamera_dep]
-
-subdir('core')
-subdir('encoder')
-subdir('image')
-subdir('output')
-subdir('preview')
-subdir('post_processing_stages')
+include_directory = include_directories('include')
+subdir('src')
 subdir('utils')
+
+pinotonlib_src = [core_src, encoder_src, image_src, output_src, preview_src, post_processing_stages_src]
+pinotonlib_dep = [ core_dep, encoder_dep, image_dep, output_dep, preview_dep, post_processing_stages_dep, libcamera_dep]
 
 add_project_arguments(cpp_arguments, language : 'cpp')
 
-rpicam_app = library(
-    'rpicam_app',
-    rpicam_app_src,
+pinotonlib = library(
+    'pinotonlib',
+    pinotonlib_src,
     soversion : meson.project_version(),
-    include_directories : include_directories('.'),
+    include_directories : include_directory,
     install : true,
     name_prefix : '',
-    dependencies : rpicam_app_dep,
+    dependencies : pinotonlib_dep,
 )
 
 # Install a symlink to the old library name for legacy purposes.
