@@ -1,0 +1,6 @@
+subdir('pinotonlib/core')
+subdir('pinotonlib/encoder')
+subdir('pinotonlib/image')
+subdir('pinotonlib/output')
+subdir('pinotonlib/post_processing_stages')
+subdir('pinotonlib/preview')
