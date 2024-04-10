@@ -2,6 +2,11 @@ preview_src = files([
     'null_preview.cpp',
     'preview.cpp',
 ])
+
+preview_headers = files([
+    meson.project_source_root() / 'include/pinotonlib/preview/preview.hpp',
+])
+
 preview_dep = []
 
 enable_drm = get_option('enable_drm')
@@ -37,3 +42,5 @@ if enable_qt and qt_dep.found()
 else
     enable_qt = false
 endif
+
+install_headers(preview_headers, subdir: meson.project_name() / 'preview')

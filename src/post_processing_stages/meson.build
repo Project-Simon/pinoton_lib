@@ -6,6 +6,16 @@ post_processing_stages_src = files([
     'post_processing_stage.cpp',
     'pwl.cpp',
 ])
+
+post_processing_headers = files([
+    meson.project_source_root() / 'include/pinotonlib/post_processing_stages/histogram.hpp',
+    meson.project_source_root() / 'include/pinotonlib/post_processing_stages/object_detect.hpp',
+    meson.project_source_root() / 'include/pinotonlib/post_processing_stages/post_processing_stage.hpp',
+    meson.project_source_root() / 'include/pinotonlib/post_processing_stages/pwl.hpp',
+    meson.project_source_root() / 'include/pinotonlib/post_processing_stages/segmentation.hpp',
+    meson.project_source_root() / 'include/pinotonlib/post_processing_stages/tf_stage.hpp',
+])
+
 post_processing_stages_dep = []
 
 enable_opencv = get_option('enable_opencv')
@@ -37,3 +47,5 @@ if enable_tflite and tflite_dep.found()
 else
     enable_tflite = false
 endif
+
+install_headers(post_processing_headers, subdir: meson.project_name() / 'post_processing_stages')

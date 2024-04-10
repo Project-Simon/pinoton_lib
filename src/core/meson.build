@@ -11,8 +11,25 @@ core_src = files([
     'post_processor.cpp',
 ])
 
+core_headers = files([
+    meson.project_source_root() / 'include/pinotonlib/core/buffer_sync.hpp',
+    meson.project_source_root() / 'include/pinotonlib/core/completed_request.hpp',
+    meson.project_source_root() / 'include/pinotonlib/core/dma_heaps.hpp',
+    meson.project_source_root() / 'include/pinotonlib/core/frame_info.hpp',
+    meson.project_source_root() / 'include/pinotonlib/core/rpicam_app.hpp',
+    meson.project_source_root() / 'include/pinotonlib/core/rpicam_encoder.hpp',
+    meson.project_source_root() / 'include/pinotonlib/core/logging.hpp',
+    meson.project_source_root() / 'include/pinotonlib/core/metadata.hpp',
+    meson.project_source_root() / 'include/pinotonlib/core/options.hpp',
+    meson.project_source_root() / 'include/pinotonlib/core/post_processor.hpp',
+    meson.project_source_root() / 'include/pinotonlib/core/still_options.hpp',
+    meson.project_source_root() / 'include/pinotonlib/core/stream_info.hpp',
+    meson.project_source_root() / 'include/pinotonlib/core/version.hpp',
+    meson.project_source_root() / 'include/pinotonlib/core/video_options.hpp',
+])
+
 # Generate a version string.
-version_cmd = [meson.project_source_root() / 'utils' / 'version.py']
+version_cmd = [meson.project_source_root() / 'utils/version.py']
 
 # Check if a version.gen file is present.
 # This would have been generated from the meson dist command.
@@ -30,16 +47,19 @@ version_cpp = vcs_tag(command : version_cmd,
 
 core_src += version_cpp
 
+inc_install_dir = meson.project_name() / 'core'
+install_headers(core_headers, subdir: inc_install_dir)
+
 # Install symlinks to the old header directories and names for legacy purposes.
-# install_symlink('libcamera-apps',
-#                 install_dir: get_option('includedir'),
-#                 pointing_to: 'rpicam-apps')
+install_symlink('libcamera-apps',
+                install_dir: get_option('includedir'),
+                pointing_to: 'rpicam-apps')
 
-# inc_install_dir = get_option('includedir') / meson.project_name() / 'core'
-# install_symlink('libcamera_app.h',
-#                 install_dir: inc_install_dir,
-#                 pointing_to: 'rpicam_app.hpp')
+inc_install_dir = get_option('includedir') / meson.project_name() / 'core'
+install_symlink('libcamera_app.h',
+                install_dir: inc_install_dir,
+                pointing_to: 'rpicam_app.hpp')
 
-# install_symlink('libcamera_encoder.h',
-#                 install_dir: inc_install_dir,
-#                 pointing_to: 'rpicam_encoder.hpp')
+install_symlink('libcamera_encoder.h',
+                install_dir: inc_install_dir,
+                pointing_to: 'rpicam_encoder.hpp')
